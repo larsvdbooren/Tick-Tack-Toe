@@ -1,6 +1,6 @@
 # Basic Tick Tack Toe browser game
 
-## Just playing around!
+**Just playing around!**
 
 ## To-do
 
