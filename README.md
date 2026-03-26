@@ -2,12 +2,9 @@
 
 ## Just playing around!
 
-# To-do
+## To-do
 
-## - UI updates
-
-## - Refactoring
-
-## - Playing rounds (best of three?)
-
-## - Scoreboard
+- UI updates
+- Refactoring
+- Playing rounds (best of three?)
+- Scoreboard
