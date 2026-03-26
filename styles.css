@@ -1,0 +1,33 @@
+.section {
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board {
+  display: grid;
+  border: 1px solid white;
+  grid-template-columns: auto auto auto;
+}
+
+.square {
+  background: rgb(39, 38, 38);
+  width: 128px;
+  height: 128px;
+}
+
+.square:nth-child(odd) {
+  background: rgb(0, 0, 0);
+}
+
+.square.is-clicked {
+  pointer-events: none;
+}
+.square.is-clicked.is-player-0 {
+  background-color: red !important;
+}
+.square.is-clicked.is-player-1 {
+  background-color: blue !important;
+}
