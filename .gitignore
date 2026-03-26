@@ -1,2 +1,7 @@
 node_modules
 .claude
+node_modules
+main.js
+main.js.map
+main.d.ts
+main.d.ts.map
