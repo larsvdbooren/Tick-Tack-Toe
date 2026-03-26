@@ -15,6 +15,14 @@ function createBoard() {
     square.classList.add("square");
     square.id = `${[i]}`;
     board!.appendChild(square);
+    square.addEventListener("click", () => {
+      square.classList.add("is-clicked");
+      square.classList.add(`is-player-${currentPlayer}`);
+      squares[i]!.player = currentPlayer;
+      console.log(squares);
+      hasWon();
+      swapPlayer();
+    });
   }
 }
 
@@ -27,47 +35,78 @@ function swapPlayer() {
   console.log(currentPlayer);
 }
 
+const winConditions: number[][] = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
+
 function hasWon() {
-  if (
-    (squares[0]!.player === currentPlayer &&
-      squares[1]!.player === currentPlayer &&
-      squares[2]!.player === currentPlayer) ||
-    (squares[3]!.player === currentPlayer &&
-      squares[4]!.player === currentPlayer &&
-      squares[5]!.player === currentPlayer) ||
-    (squares[6]!.player === currentPlayer &&
-      squares[7]!.player === currentPlayer &&
-      squares[8]!.player === currentPlayer) ||
-    (squares[0]!.player === currentPlayer &&
-      squares[3]!.player === currentPlayer &&
-      squares[6]!.player === currentPlayer) ||
-    (squares[1]!.player === currentPlayer &&
-      squares[4]!.player === currentPlayer &&
-      squares[7]!.player === currentPlayer) ||
-    (squares[2]!.player === currentPlayer &&
-      squares[5]!.player === currentPlayer &&
-      squares[8]!.player === currentPlayer) ||
-    (squares[0]!.player === currentPlayer &&
-      squares[4]!.player === currentPlayer &&
-      squares[8]!.player === currentPlayer) ||
-    (squares[2]!.player === currentPlayer &&
-      squares[4]!.player === currentPlayer &&
-      squares[6]!.player === currentPlayer)
-  ) {
-    console.log(`${currentPlayer} won the match!`);
+  for (const condition of winConditions) {
+    let isWinning: boolean = true;
+    for (const position of condition) {
+      if (squares[position]!.player === currentPlayer) {
+        isWinning = true;
+      } else {
+        isWinning = false;
+        break;
+      }
+    }
+    if (isWinning) {
+      console.log(`${currentPlayer} won the match!`);
+      showOverlay();
+      updateScore(currentPlayer);
+    }
   }
 }
 
-const squareDivs = document.querySelectorAll<HTMLElement>(".square");
+const overlay = document.querySelector<HTMLElement>(".overlay");
 
-squareDivs.forEach((el) => {
-  el.addEventListener("click", (e: Event) => {
-    el.classList.add("is-clicked");
-    el.classList.add(`is-player-${currentPlayer}`);
-    let squareID: number = parseInt(el.id);
-    squares[squareID]!.player = currentPlayer;
-    console.log(squares);
-    hasWon();
-    swapPlayer();
-  });
+function showOverlay() {
+  if (overlay) {
+    overlay.classList.add("is-visible");
+  }
+}
+
+function hideOverlay() {
+  if (overlay) {
+    overlay.classList.remove("is-visible");
+  }
+}
+
+const scoreSpanP1 = document.querySelector<HTMLElement>("#player1Score");
+const scoreSpanP2 = document.querySelector<HTMLElement>("#player2Score");
+let player1Score = 0;
+let player2Score = 0;
+
+function updateScore(player: number) {
+  if (player === 0) {
+    player1Score++;
+    scoreSpanP1!.textContent = player1Score.toString();
+  }
+  if (player === 1) {
+    player2Score++;
+    scoreSpanP2!.textContent = player2Score.toString();
+  }
+}
+
+const resetBtn = document.querySelector<HTMLElement>("#reset-button");
+
+function resetBoard() {
+  const parent = document.querySelector<HTMLElement>(".board");
+  while (parent!.firstChild) {
+    parent?.firstChild.remove();
+  }
+  squares.forEach((sq) => (sq.player = null));
+  hideOverlay();
+  createBoard();
+}
+
+resetBtn?.addEventListener("click", (e: Event) => {
+  resetBoard();
 });

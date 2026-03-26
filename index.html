@@ -6,9 +6,25 @@
     <title>Tick Tack Toe</title>
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
-  <body style="background-color: black">
+  <body>
     <div class="section">
-      <div class="board"></div>
+      <div class="top-wrap">
+        <h1>Score:</h1>
+        <div class="score-details">
+          <p>Player 1: <span id="player1Score">0</span></p>
+          <p>vs.</p>
+          <p>Player 2: <span id="player2Score">0</span></p>
+        </div>
+      </div>
+      <div class="board-wrap">
+        <div class="overlay">
+          <p class="p-body">Player <span>x</span> has won!</p>
+        </div>
+        <div class="board"></div>
+      </div>
+      <div class="button-wrap">
+        <button class="button" id="reset-button">Reset!</button>
+      </div>
     </div>
 
     <script type="module" src="main.js"></script>
